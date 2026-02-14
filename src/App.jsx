@@ -66,6 +66,23 @@ function App() {
   const handleReset = () => {
     setPrediction(null);
     setUserDecision(null);
+    setVitals({
+      sleepHours: 6.5,
+      physicalActivity: 4,
+      caffeine: 200,
+      alcohol: 2,
+      smoking: false,
+      familyHistoryAnxiety: false,
+      dizziness: false,
+      medication: false,
+      recentLifeEvent: false,
+      stressLevel: 7,
+      heartRate: 78,
+      breathingRate: 18,
+      sweatingLevel: 3,
+      therapySessions: 1,
+      dietQuality: 6,
+    });
   };
 
   const handleSubmit = async () => {
@@ -208,7 +225,11 @@ function App() {
                   <div className="recommendation-actions">
                     <button
                       className="btn-primary"
-                      onClick={() => setUserDecision("yes")}
+                      onClick={() => {
+                        setUserDecision("yes");
+                        window.location.href =
+                          "https://interview-platform-1-s86t.onrender.com";
+                      }}
                     >
                       Yes
                     </button>
@@ -233,9 +254,7 @@ function App() {
                       <li>Try journaling your thoughts before sleep.</li>
                     </ul>
                   </div>
-                ) : (
-                  <p>Proceeding with further analysis... (Leave as it is)</p>
-                )}
+                ) : null}
               </>
             )}
           </div>

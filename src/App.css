@@ -17,6 +17,8 @@
   align-items: center;
   padding: 2rem 0;
   margin-bottom: 4rem;
+  position: relative;
+  z-index: 100;
 }
 
 .logo-section {
@@ -94,6 +96,8 @@
   font-family: "Outfit", sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
 }
 
 .btn-secondary:hover {
