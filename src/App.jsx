@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const SliderInput = ({ label, min, max, step, value, onChange, unit = "" }) => (
   <div className="input-group">
@@ -37,6 +39,10 @@ const ToggleInput = ({ label, checked, onChange }) => (
   </div>
 );
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [authView, setAuthView] = useState("login"); // 'login' or 'signup'
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [vitals, setVitals] = useState({
     sleepHours: 6.5,
     physicalActivity: 4,
@@ -58,6 +64,38 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [userDecision, setUserDecision] = useState(null); // 'yes' or 'no'
+
+  // Check for existing session on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("vitalSenseCurrentUser");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Error parsing stored user:", error);
+        localStorage.removeItem("vitalSenseCurrentUser");
+      }
+    }
+  }, []);
+
+  const handleLogin = (user) => {
+    setCurrentUser(user);
+    setIsAuthenticated(true);
+  };
+
+  const handleSignup = (user) => {
+    setCurrentUser(user);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("vitalSenseCurrentUser");
+    setCurrentUser(null);
+    setIsAuthenticated(false);
+    handleReset();
+  };
 
   const updateVital = (key, value) => {
     setVitals((prev) => ({ ...prev, [key]: value }));
@@ -134,6 +172,25 @@ function App() {
     }
   };
 
+  // Show auth screens if not authenticated
+  if (!isAuthenticated) {
+    if (authView === "login") {
+      return (
+        <Login
+          onLogin={handleLogin}
+          onSwitchToSignup={() => setAuthView("signup")}
+        />
+      );
+    } else {
+      return (
+        <Signup
+          onSignup={handleSignup}
+          onSwitchToLogin={() => setAuthView("login")}
+        />
+      );
+    }
+  }
+
   return (
     <div className="app-container">
       <nav className="navbar animate-fade-in">
@@ -144,11 +201,21 @@ function App() {
           </span>
         </div>
         <div className="nav-links">
+          {currentUser && (
+            <span
+              style={{ marginRight: "1rem", color: "#495057", fontWeight: 500 }}
+            >
+              Welcome, {currentUser.name}
+            </span>
+          )}
           {prediction && (
             <button className="btn-secondary" onClick={handleReset}>
               Start New Assessment
             </button>
           )}
+          <button className="btn-secondary" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </nav>
 
