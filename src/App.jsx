@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import ThemeToggle from "./components/ThemeToggle";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
@@ -213,6 +214,7 @@ function App() {
               Start New Assessment
             </button>
           )}
+          <ThemeToggle />
           <button className="btn-secondary" onClick={handleLogout}>
             Logout
           </button>

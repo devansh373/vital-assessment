@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Auth.css";
+import ThemeToggle from "./ThemeToggle";
 
 const Signup = ({ onSignup, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -99,11 +100,14 @@ const Signup = ({ onSignup, onSwitchToLogin }) => {
     <div className="auth-container">
       <div className="auth-card animate-fade-in">
         <div className="auth-header">
-          <div className="logo-section-auth">
-            <div className="logo-icon"></div>
-            <span className="logo-text">
-              VitalSense<span className="highlight-text">Diagnostics</span>
-            </span>
+          <div className="auth-header-top">
+            <div className="logo-section-auth">
+              <div className="logo-icon"></div>
+              <span className="logo-text">
+                VitalSense<span className="highlight-text">Diagnostics</span>
+              </span>
+            </div>
+            <ThemeToggle />
           </div>
           <h2 className="auth-title">Create Account</h2>
           <p className="auth-subtitle">
